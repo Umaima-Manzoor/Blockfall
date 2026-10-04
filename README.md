@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🎮 DSA-Project
+# 🎮 Blockfall
 
 ### A Tetris-style game built in C++ with custom data structures
 
@@ -20,7 +20,7 @@
 
 ## 📌 Overview
 
-**DSA-Project** is a Tetris-style desktop game developed in **C++** using **Raylib**.
+**Blockfall** is a Tetris-style desktop game developed in **C++** using **Raylib**.
 
 The project was designed to demonstrate how fundamental **data structures can be implemented from scratch and integrated into a complete interactive application**.
 
@@ -33,6 +33,22 @@ Instead of treating data structures as isolated exercises, each structure has a 
 * A dedicated **PieceQueue** combines multiple structures to manage piece generation.
 
 This makes the project both a playable game and a practical demonstration of data-structure usage.
+
+---
+
+## 👥 Team & Project Context
+
+**Blockfall** originated as a **semester group project for Data Structures and Algorithms**. The original project was developed collaboratively in the repository **Aiman-Misbah/DSA-Project** before being reorganised and continued under this repository.
+
+The original repository separated the team's work into individual directories. Based on that original project structure and its commit history, the main areas of contribution were:
+
+| Team Member | Main Contributions |
+| ----------- | ------------------ |
+| **Aiman** | AVL tree and leaderboard implementation, along with early game and application integration |
+| **Maryam** | Queue, PieceQueue, UndoStack, and early game-controller/game integration |
+| **Umaima** | Board, LinkedList, pieces, positions, UI components, game integration, and later project restructuring and build/documentation work |
+
+The final version brings these components together into one integrated application rather than keeping the original member-specific folders.
 
 ---
 
@@ -273,7 +289,7 @@ The project is organised into separate layers for gameplay, data structures, lea
 ## 📁 Project Structure
 
 ```text
-DSA-Project/
+Blockfall/
 │
 ├── assets/
 │   ├── audio/
