@@ -96,7 +96,7 @@
 
 ## 🧩 Data Structures
 
-This is a DSA project first — every structure below is doing real work, not sitting there as an exercise.
+Each data structure has a specific role in the game's implementation.
 
 ```text
                           BLOCKFALL
@@ -123,7 +123,7 @@ This is a DSA project first — every structure below is doing real work, not si
 | **Stack** | Undo | Most recent state must come back first (LIFO) |
 | **AVL Tree** | Leaderboard | Keeps scores ordered and balanced on every insert |
 
-
+---
 
 ## 🏗️ Architecture
 
@@ -256,7 +256,6 @@ mingw32-make clean
 ```
 
 > **Note:** the Makefile targets Windows (MinGW + vcpkg), but the source itself is portable standard C++ — it compiles and runs cleanly on Linux too against a native Raylib 5.5 build, with no Windows-specific code paths. Every screenshot and the GIF above were captured from a Linux build of this exact source, driven with simulated input — not mockups.
-
 
 ---
 
