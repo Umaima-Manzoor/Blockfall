@@ -123,53 +123,7 @@ This is a DSA project first — every structure below is doing real work, not si
 | **Stack** | Undo | Most recent state must come back first (LIFO) |
 | **AVL Tree** | Leaderboard | Keeps scores ordered and balanced on every insert |
 
-### Code callouts
 
-**Queue — feeding the next-piece preview:**
-```cpp
-void Queue::enqueue(Piece piece) {
-    if (isFull()) return;
-    QueueNode* newNode = new QueueNode(piece);
-    if (isEmpty()) { front = rear = newNode; }
-    else { rear->next = newNode; rear = newNode; }
-    size++;
-}
-```
-Standard linked-list FIFO — pieces are added at the rear and drawn from the front, so the "Next Pieces" panel always shows them in arrival order.
-
-**Stack — undo:**
-```cpp
-void UndoStack::Push(const Piece& snapshot) {
-    if (IsFull()) stack.erase(stack.begin());  // drop oldest when full
-    stack.push_back(snapshot);
-}
-Piece UndoStack::Pop() {
-    if (IsEmpty()) return Piece();
-    Piece top = stack.back();
-    stack.pop_back();
-    return top;
-}
-```
-`Ctrl+Z` pops the most recent snapshot — board, score, and piece queue all roll back together, not just the last move.
-
-**AVL Tree — leaderboard insert:**
-```cpp
-AVLScoreNode* ScoreAVL::InsertNode(AVLScoreNode* node, int val) {
-    if (!node) return new AVLScoreNode(val);
-    if (val < node->score) node->left = InsertNode(node->left, val);
-    else if (val > node->score) node->right = InsertNode(node->right, val);
-    else return node;
-
-    UpdateHeight(node);
-    int balance = GetBalance(node);
-    // 4 standard rotation cases keep the tree balanced here
-    ...
-    return node;
-}
-```
-Called once per game, right when `GameOver` is set — the final score is inserted and the tree rebalances itself via rotations, keeping `GetTopScores()` cheap to query.
-
----
 
 ## 🏗️ Architecture
 
@@ -303,16 +257,6 @@ mingw32-make clean
 
 > **Note:** the Makefile targets Windows (MinGW + vcpkg), but the source itself is portable standard C++ — it compiles and runs cleanly on Linux too against a native Raylib 5.5 build, with no Windows-specific code paths. Every screenshot and the GIF above were captured from a Linux build of this exact source, driven with simulated input — not mockups.
 
-<details>
-<summary><b>How the gameplay GIF/screenshots were actually captured</b> (worth reading if you're curious)</summary>
-
-<br>
-
-raylib 5.5 was built from source and this repo's `src/*.cpp` compiled against it natively on Linux — zero code changes needed. The binary was then run under a virtual display (`Xvfb`) with software OpenGL rendering, driven with real synthetic mouse/keyboard events (`xdotool`) to click through the menu and actually play, while `ImageMagick` captured frames. The welcome screen, HUD, pause screen, and game-over/leaderboard screen are all genuine output from your own compiled code.
-
-One honest limitation: getting a real **line clear** on camera would need the capture script to read the board state back and plan placements against it — it was only sending blind keystrokes with no feedback loop, so it could stack pieces close (a full row got left with just 1–2 open cells in testing) but couldn't reliably finish one. The hard-drop/rotation GIF above and the game-over screenshot are both genuine play; a completed line just didn't land in the samples taken. Worth a real recording of your own if you want that exact moment on screen.
-
-</details>
 
 ---
 
