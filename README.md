@@ -1,21 +1,23 @@
 <div align="center">
 
-# 🎮 Blockfall
+# 🎮 BLOCKFALL
 
-### A Tetris-style game built in C++ with custom data structures
+### Tetris-style game built in C++ with custom data structures
 
-<p>
-  <strong>Data Structures &nbsp;•&nbsp; Game Development &nbsp;•&nbsp; Raylib</strong>
-</p>
+<img src="docs/demo/gameplay.gif" alt="Blockfall gameplay demo — movement, rotation, hard drop" width="700">
+
+<p><sub>Real gameplay capture: movement, rotation, hard drop, next-piece preview, and the ghost-piece landing guide.</sub></p>
 
 <img src="https://img.shields.io/badge/C%2B%2B-17-00599C?style=for-the-badge&logo=cplusplus&logoColor=white" alt="C++17">
 <img src="https://img.shields.io/badge/Raylib-5.5-000000?style=for-the-badge&logo=raylib&logoColor=white" alt="Raylib 5.5">
 <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Windows">
 
 <p>
-  <a href="#-preview">Preview</a> ·
-  <a href="#-features">Features</a> ·
+  <a href="#️-gameplay">Gameplay</a> ·
   <a href="#-data-structures">Data Structures</a> ·
+  <a href="#️-architecture">Architecture</a> ·
+  <a href="#-gameplay-flow">Flow</a> ·
+  <a href="#-project-at-a-glance">At a Glance</a> ·
   <a href="#️-build--run">Build & Run</a>
 </p>
 
@@ -23,61 +25,48 @@
 
 ---
 
-## 🖼️ Preview
-
-<p align="center">
-  <img src="docs/screenshots/welcome.jpg" alt="Blockfall welcome screen" width="800">
-</p>
-
-<p align="center">
-  <sub>The welcome screen — the falling "TETRIS" letters are individually simulated blocks, not an image.</sub>
-</p>
-
-<p align="center">
-  <img src="docs/demo/gameplay.gif" alt="Blockfall gameplay demo — movement, rotation, hard drop" width="700">
-</p>
-
-<p align="center">
-  <sub>Real gameplay capture: movement, rotation, hard drop, next-piece preview, and the ghost-piece landing guide.</sub>
-</p>
+**Blockfall** is a Tetris-style desktop game built in **C++17** with **Raylib**, developed as a semester project for **Data Structures and Algorithms**. Instead of treating data structures as isolated exercises, each one has a real job inside the game — a queue feeds upcoming pieces, a stack powers undo, an AVL tree keeps the leaderboard sorted, and linked lists drive both the piece bag and the board itself.
 
 ---
 
-## 📌 Overview
+## 🕹️ Gameplay
 
-**Blockfall** is a Tetris-style desktop game developed in **C++** using **Raylib**.
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="docs/screenshots/welcome.jpg" alt="Welcome screen" width="100%">
+<br><sub><b>Welcome screen</b> — falling-letter title animation</sub>
+</td>
+<td align="center" width="50%">
+<img src="docs/screenshots/gameplay.png" alt="Active gameplay" width="100%">
+<br><sub><b>Active gameplay</b> — board, HUD, next-piece preview</sub>
+</td>
+</tr>
+<tr>
+<td align="center" width="50%">
+<img src="docs/screenshots/pause.png" alt="Pause screen" width="100%">
+<br><sub><b>Paused</b> — board dims, pause icon flips to play</sub>
+</td>
+<td align="center" width="50%">
+<img src="docs/screenshots/gameover.png" alt="Game over and leaderboard screen" width="100%">
+<br><sub><b>Game over</b> — final score + AVL-backed Top 5 leaderboard</sub>
+</td>
+</tr>
+</table>
 
-The project was designed to demonstrate how fundamental **data structures can be implemented from scratch and integrated into a complete interactive application**.
+### Controls
 
-Instead of treating data structures as isolated exercises, each structure has a specific role within the game:
+```text
+              ↑
+           Rotate
 
-* A **linked list** manages the piece bag and game-board rows.
-* A **queue** manages upcoming pieces.
-* A **stack** stores previous game states for undo functionality.
-* An **AVL tree** organises leaderboard scores.
-* A dedicated **PieceQueue** combines multiple structures to manage piece generation.
+   ←        ↓        →
+  Move   Soft Drop   Move
 
-This makes the project both a playable game and a practical demonstration of data-structure usage.
-
----
-
-## 👥 Team & Project Context
-
-**Blockfall** originated as a **semester group project for Data Structures and Algorithms**. The original project was developed collaboratively in the repository **Aiman-Misbah/DSA-Project** before being reorganised and continued under this repository.
-
-| Team Member | Main Contributions |
-| ----------- | ------------------ |
-| **Aiman** | AVL tree and leaderboard implementation, along with early game and application integration |
-| **Maryam** | Queue, PieceQueue, UndoStack, and early game-controller/game integration |
-| **Umaima** | Board, LinkedList, pieces, positions, UI components, game integration, and later project restructuring and build/documentation work |
-
----
-
-## 🎮 Controls
-
-<p align="center">
-  <img src="docs/screenshots/hud.png" alt="Blockfall in-game HUD" width="800">
-</p>
+        SPACE = Hard Drop
+          H = Hold
+       CTRL+Z = Undo
+```
 
 | Key | Action |
 |---|---|
@@ -88,295 +77,242 @@ This makes the project both a playable game and a practical demonstration of dat
 | `H` | Hold piece |
 | `Ctrl + Z` | Undo |
 
-The in-game HUD (above) shows the **Hold slot**, live **score / time / lines**, the next **3 upcoming pieces**, and toggles for music and pause — plus the ghost-piece outline that previews where the current piece will land.
-
 ---
 
 ## ✨ Features
 
-* 🎮 Tetris-style gameplay on a **15 × 20** board
-* 🧩 Seven standard Tetris piece types
-* 🔄 Piece movement and rotation
-* 💥 Collision detection
-* 🧱 Completed-row detection and clearing, with **SINGLE! / DOUBLE!! / TRIPLE!!! / TETRIS!!!!** on-screen messages
-* 🏅 Classic scoring: 100 / 200 / 500 / 800 points for 1–4 lines, +100 per extra line beyond that
-* 👀 Upcoming-piece preview (3 pieces deep)
-* 🎲 Random piece generation using a piece bag
-* 👻 Ghost-piece landing preview (toggleable)
-* ↩️ Undo functionality through saved game states
-* 🏆 AVL-tree-based score leaderboard
-* 🔊 Background music and sound effects, with an in-game mute toggle
-* 🖥️ Raylib-based graphical interface
-* 📦 Modular source and header organisation
+* 🎮 Tetris-style gameplay on a **15 × 20** board, 7 standard piece types
+* 🔄 Movement, rotation, and collision detection
+* 🧱 Line clearing with on-screen **SINGLE! / DOUBLE!! / TRIPLE!!! / TETRIS!!!!** messages
+* 🏅 Classic scoring — 100 / 200 / 500 / 800 points for 1–4 lines, +100 per extra line
+* 👀 Next-piece preview, 3 pieces deep
+* 👻 Toggleable ghost-piece landing guide
+* ↩️ Undo via saved game-state snapshots
+* 🏆 AVL-tree-backed score leaderboard (Top 5)
+* 🔊 Background music, rotate/clear sound effects, in-game mute toggle
+* ⏸️ Pause/resume
 
 ---
 
-## 🧠 Data Structures
+## 🧩 Data Structures
 
-The core of the project is its custom data-structure implementation.
-
-### 1. Linked List — Piece Bag
-
-The piece bag is implemented using a custom **singly linked list**.
+This is a DSA project first — every structure below is doing real work, not sitting there as an exercise.
 
 ```text
-LinkedList
-    │
-    ▼
-┌─────────────┐
-│ Piece       │
-│ next ───────┼──────► Piece
-└─────────────┘          │
-                         ▼
-                       Piece
-                         │
-                         ▼
-                        ...
+                          BLOCKFALL
+                              │
+          ┌──────────┬────────┼────────┬──────────┐
+          ▼          ▼        ▼        ▼          ▼
+       Queue      UndoStack  ScoreAVL  LinkedList  LinkedList
+          │          │          │          │          │
+     Upcoming      Undo      Leaderboard  Piece      Board
+      Pieces      States       Scores      Bag        Rows
+          │
+          ▼
+      PieceQueue
+   (combines Queue +
+    LinkedList bag to
+    generate pieces)
 ```
 
-The `LinkedList` implementation provides operations for:
+| Structure | Used for | Why it fits |
+|---|---|---|
+| **Linked List** | Piece bag | Dynamic sequence pieces are drawn from |
+| **Linked List** | Board rows | Each row is a node holding 15 cells |
+| **Queue** | Upcoming pieces | FIFO — pieces enter play in the order they're drawn |
+| **Stack** | Undo | Most recent state must come back first (LIFO) |
+| **AVL Tree** | Leaderboard | Keeps scores ordered and balanced on every insert |
 
-* Adding pieces
-* Retrieving pieces by index
-* Removing pieces
-* Checking the current size
-* Clearing the list
+### Code callouts
 
-The list is used by `PieceQueue` as the **piece bag** from which new pieces are selected.
+**Queue — feeding the next-piece preview:**
+```cpp
+void Queue::enqueue(Piece piece) {
+    if (isFull()) return;
+    QueueNode* newNode = new QueueNode(piece);
+    if (isEmpty()) { front = rear = newNode; }
+    else { rear->next = newNode; rear = newNode; }
+    size++;
+}
+```
+Standard linked-list FIFO — pieces are added at the rear and drawn from the front, so the "Next Pieces" panel always shows them in arrival order.
+
+**Stack — undo:**
+```cpp
+void UndoStack::Push(const Piece& snapshot) {
+    if (IsFull()) stack.erase(stack.begin());  // drop oldest when full
+    stack.push_back(snapshot);
+}
+Piece UndoStack::Pop() {
+    if (IsEmpty()) return Piece();
+    Piece top = stack.back();
+    stack.pop_back();
+    return top;
+}
+```
+`Ctrl+Z` pops the most recent snapshot — board, score, and piece queue all roll back together, not just the last move.
+
+**AVL Tree — leaderboard insert:**
+```cpp
+AVLScoreNode* ScoreAVL::InsertNode(AVLScoreNode* node, int val) {
+    if (!node) return new AVLScoreNode(val);
+    if (val < node->score) node->left = InsertNode(node->left, val);
+    else if (val > node->score) node->right = InsertNode(node->right, val);
+    else return node;
+
+    UpdateHeight(node);
+    int balance = GetBalance(node);
+    // 4 standard rotation cases keep the tree balanced here
+    ...
+    return node;
+}
+```
+Called once per game, right when `GameOver` is set — the final score is inserted and the tree rebalances itself via rotations, keeping `GetTopScores()` cheap to query.
 
 ---
 
-### 2. Queue — Upcoming Pieces
-
-A custom **FIFO queue** manages pieces waiting to enter the game, with a default capacity of **five pieces**:
-
-| Operation   | Purpose                                      |
-| ----------- | --------------------------------------------- |
-| `enqueue()` | Add a piece to the rear                      |
-| `dequeue()` | Remove the piece at the front                |
-| `peek()`    | Inspect the front piece                      |
-| `isEmpty()` | Check whether the queue is empty             |
-| `isFull()`  | Check whether the queue has reached capacity |
-| `getSize()` | Return the current number of pieces          |
-| `clear()`   | Empty the queue                              |
-
----
-
-### 3. PieceQueue — Piece Generation
-
-`PieceQueue` acts as the layer connecting the **piece bag** and the **upcoming-piece queue**.
+## 🏗️ Architecture
 
 ```text
-                 PieceQueue
-                     │
-             ┌───────┴───────┐
-             ▼               ▼
-          Queue          LinkedList
-             │               │
-             ▼               ▼
-       Next pieces        Piece bag
+                       main.cpp
+                          │
+            ┌─────────────┼─────────────┐
+            ▼             ▼             ▼
+        WelcomeScreen    Game         Manager
+                          │           (UI/HUD)
+            ┌─────────────┼─────────────┐
+            ▼             ▼             ▼
+          Board        PieceQueue    UndoStack
+     (LinkedList of      │
+         rows)    ┌──────┴──────┐
+                   ▼             ▼
+                 Queue       LinkedList
+               (upcoming)    (piece bag)
+
+                     Game
+                      │
+                      ▼
+                  Leaderboard
+                      │
+                      ▼
+                  ScoreAVL
 ```
 
-It fills the initial queue, randomly selects pieces from the bag, supplies the next piece to the game, provides upcoming pieces for the interface, and saves/restores queue state for undo.
+| Directory | Responsibility |
+|---|---|
+| `game/` | Core Tetris gameplay and piece logic |
+| `data_structures/` | Custom DSA implementations |
+| `leaderboard/` | Score and leaderboard management |
+| `ui/` | Screens, HUD, colours, presentation |
+| `assets/` | Images, audio, fonts |
 
 ---
 
-### 4. Linked List — Game Board
-
-The game board uses a separate linked-list structure to represent its rows. Each `RowNode` contains an array of **15 cells** and a pointer to the next row.
+## 🔄 Gameplay Flow
 
 ```text
-Board
- │
- ▼
-Row 0 ──► Row 1 ──► Row 2 ──► ... ──► Row 19
- │          │          │                 │
-15 cells  15 cells   15 cells          15 cells
-```
-
-The board is **20 rows × 15 columns**, and supports adding/accessing rows, detecting completed rows, clearing rows, checking cell occupancy, detecting collisions, and saving/restoring board state.
-
----
-
-### 5. Stack — Undo System
-
-Previous game states are pushed onto a custom **LIFO stack** as the game progresses.
-
-```text
-        UndoStack
-           │
-           ▼
-     ┌───────────┐
-     │ State 3   │  ← most recent
-     ├───────────┤
-     │ State 2   │
-     ├───────────┤
-     │ State 1   │
-     └───────────┘
-```
-
-Pressing `Ctrl+Z` restores the most recently saved state — board, score, current piece, and upcoming pieces — rather than reversing just one movement.
-
----
-
-### 6. AVL Tree — Leaderboard
-
-The leaderboard uses a custom **self-balancing AVL tree** to keep scores ordered.
-
-```text
-              Score
-             /     \
-          Score    Score
-           /          \
-        Score        Score
-```
-
-Supports inserting scores, maintaining tree balance via rotations, retrieving high scores, and clearing the tree.
-
----
-
-## 🏗️ Game Architecture
-
-```text
-                         ┌──────────────┐
-                         │   main.cpp   │
-                         └──────┬───────┘
-                                │
-              ┌─────────────────┼─────────────────┐
-              │                 │                 │
-              ▼                 ▼                 ▼
-          Game Logic       Data Structures     UI / Screens
-              │                 │                 │
-              │          ┌──────┼──────┐          │
-              │          │      │      │          │
-              │          ▼      ▼      ▼          │
-              │       Linked  Queue  Stack        │
-              │       List           /Undo        │
-              │          │                         │
-              │          ▼                         │
-              │       AVL Tree                     │
-              │          │                         │
-              └──────────┼─────────────────────────┘
-                         ▼
-                    Raylib Layer
-```
-
-| Directory          | Responsibility                                        |
-| ------------------ | ----------------------------------------------------- |
-| `game/`            | Core Tetris gameplay and piece logic                  |
-| `data_structures/` | Custom DSA implementations                            |
-| `leaderboard/`     | Score and leaderboard management                      |
-| `ui/`              | Screens, interface elements, colours and presentation |
-| `assets/`          | Images, audio and fonts                               |
-
----
-
-## 📁 Project Structure
-
-```text
-Blockfall/
-│
-├── assets/
-│   ├── audio/        (music.mp3, rotate.mp3, clear.mp3)
-│   ├── fonts/         (monogram.ttf)
-│   └── images/        (wallpaper, music/pause icons)
-│
-├── docs/
-│   ├── screenshots/
-│   └── demo/
-│
-├── include/
-│   ├── data_structures/
-│   │   ├── LinkedList.h
-│   │   ├── PieceQueue.h
-│   │   ├── Queue.h
-│   │   ├── ScoreAVL.h
-│   │   └── UndoStack.h
-│   ├── game/
-│   │   ├── Board.h
-│   │   ├── Game.h
-│   │   ├── Piece.h
-│   │   ├── Pieces.h
-│   │   └── Position.h
-│   ├── leaderboard/
-│   │   └── Leaderboard.h
-│   └── ui/
-│       ├── Colours.h
-│       ├── Manager.h
-│       └── WelcomeScreen.h
-│
-├── src/
-│   ├── data_structures/
-│   ├── game/
-│   ├── leaderboard/
-│   ├── ui/
-│   └── main.cpp
-│
-├── .gitignore
-├── Makefile
-└── README.md
+         Start Game
+              │
+              ▼
+       Generate Piece ◄─────────────┐
+              │                     │
+              ▼                     │
+         PieceQueue                 │
+         (bag + queue)              │
+              │                     │
+              ▼                     │
+       Player Movement              │
+      (move / rotate / drop)        │
+              │                     │
+              ▼                     │
+       Collision Check              │
+              │                     │
+              ▼                     │
+         Piece Locks                │
+              │                     │
+              ▼                     │
+      Row(s) complete? ─── No ──────┘
+              │
+             Yes
+              │
+              ▼
+     Clear row(s) + Score
+              │
+              ▼
+     Can next piece spawn? ── Yes ──► (loop back to Generate Piece)
+              │
+              No
+              │
+              ▼
+          GAME OVER
+              │
+              ▼
+    AVL Insert → Leaderboard
 ```
 
 ---
 
-## 🖥️ Technologies
+## 📊 Project at a Glance
 
-| Technology             | Role                                          |
-| ---------------------- | --------------------------------------------- |
-| **C++17**              | Application and data-structure implementation |
-| **Raylib 5.5**         | Graphics, audio, input and window management  |
-| **MinGW-w64 / GCC**    | C++ compilation                               |
-| **GNU Make**           | Build automation                              |
-| **Visual Studio Code** | Development environment                       |
+| Area | Implementation |
+|---|---|
+| Language | C++17 |
+| Graphics / audio / input | Raylib 5.5 |
+| Board | 15 × 20, linked-list rows |
+| Piece management | Queue + linked-list piece bag (`PieceQueue`) |
+| Undo system | Stack (snapshot-based) |
+| Leaderboard | AVL Tree, Top 5 |
+| Build system | Makefile (MinGW-w64 / GCC) |
+
+---
+
+## 👥 Team & Project Context
+
+**Blockfall** originated as a semester group project for Data Structures and Algorithms. The original project was developed collaboratively in **Aiman-Misbah/DSA-Project** before being reorganised and continued under this repository.
+
+| Team Member | Main Contributions |
+|---|---|
+| **Aiman** | AVL tree and leaderboard implementation, early game/application integration |
+| **Maryam** | Queue, PieceQueue, UndoStack, early game-controller/game integration |
+| **Umaima** | Board, LinkedList, pieces, positions, UI components, game integration, later restructuring and build/documentation work |
 
 ---
 
 ## ⚙️ Build & Run
 
 ### Requirements
-
 * Windows
-* C++17-compatible compiler
-* MinGW-w64 / GCC
+* C++17-compatible compiler (MinGW-w64 / GCC)
 * GNU Make
 * Raylib 5.5
 
 ### Build
-
 ```powershell
 mingw32-make
 ```
 
 ### Run
-
 ```powershell
 .\main.exe
 ```
 
 ### Clean
-
 ```powershell
 mingw32-make clean
 ```
 
-The project uses the included `Makefile` to compile all source files with **C++17** and link them against Raylib and the required Windows libraries.
+> **Note:** the Makefile targets Windows (MinGW + vcpkg), but the source itself is portable standard C++ — it compiles and runs cleanly on Linux too against a native Raylib 5.5 build, with no Windows-specific code paths. Every screenshot and the GIF above were captured from a Linux build of this exact source, driven with simulated input — not mockups.
 
-> **Note:** the Makefile targets Windows (MinGW + vcpkg), but the source itself is portable standard C++ — it compiles and runs cleanly on Linux too against a native Raylib 5.5 build, with no Windows-specific code paths. The screenshots and GIF above were captured from a Linux build of this exact source.
+<details>
+<summary><b>How the gameplay GIF/screenshots were actually captured</b> (worth reading if you're curious)</summary>
 
----
+<br>
 
-## 🔍 Why Data Structures Matter Here
+raylib 5.5 was built from source and this repo's `src/*.cpp` compiled against it natively on Linux — zero code changes needed. The binary was then run under a virtual display (`Xvfb`) with software OpenGL rendering, driven with real synthetic mouse/keyboard events (`xdotool`) to click through the menu and actually play, while `ImageMagick` captured frames. The welcome screen, HUD, pause screen, and game-over/leaderboard screen are all genuine output from your own compiled code.
 
-| Structure               | Game System      | Why It Fits                                  |
-| ----------------------- | ---------------- | --------------------------------------------- |
-| **Linked List**         | Piece bag        | Dynamic sequence of available pieces         |
-| **Linked List**         | Board rows       | Sequential row representation                |
-| **Queue**               | Upcoming pieces  | FIFO ordering                                |
-| **Stack**               | Undo             | Most recent state must be restored first     |
-| **AVL Tree**            | Leaderboard      | Maintains ordered, balanced score data       |
-| **Combined structures** | Piece generation | Coordinates the piece bag and upcoming queue |
+One honest limitation: getting a real **line clear** on camera would need the capture script to read the board state back and plan placements against it — it was only sending blind keystrokes with no feedback loop, so it could stack pieces close (a full row got left with just 1–2 open cells in testing) but couldn't reliably finish one. The hard-drop/rotation GIF above and the game-over screenshot are both genuine play; a completed line just didn't land in the samples taken. Worth a real recording of your own if you want that exact moment on screen.
 
-This integration is the main focus of the project: **applying data-structure concepts to real game functionality.**
+</details>
 
 ---
 
